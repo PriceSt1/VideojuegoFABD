@@ -1,0 +1,131 @@
+﻿<!--Importamos los controladores de la libreria V6, puesto que nos hace falta, ya que nos llega una lista de objetos genericos y debemos convertirlos en TTema.
+Tambien el modelo, como he dicho llega una LIST de objets (List<Object>)
+-->
+@model List<object>
+@using VideojuegoFABD.Models
+
+<h3 style="margin-bottom: 25px; text-align: center;">Añadir Libro</h3>
+<!-- Elemento para poner el mensaje en la página -->
+<p class="text-left">Mensaje: <span id="mensaje"></span></p>
+<!--******************************************************************-->
+
+<div class="container">
+    <div class="col-md-10">
+        <div class="form-area">
+            <!-- Creamos un formulario de HTML, creando los campos tantos como tenga el tipo libro(Titulo,autor,tema,paginas.... etc)-->
+            <form class="form" method="post" id="my_form" onsubmit="Enviar()">
+                <!--<form class="form" method="post" id="my_form">-->
+                <div class="form-group">
+                    <label for="titulo">Titulo</label>
+                    <!-- Hay que tener en cuenta que el id tiene que tener el mismo nombre que el nombre de la propiedad del objeto, que en este caso es libro. Asi con los necesarios.-->
+                    <input name="Titulo" type="text" maxlength="30" required="" class="form-control" placeholder="Título" id="titulo" />
+                </div>
+                <div class="form-group">
+                    <label for="autor">Autor</label>
+                    <input name="Autor" type="text" maxlength="30" minlength="5" required="" class="form-control" placeholder="Autor" id="autor" />
+                </div>
+                <div class="form-group">
+                    <label for="tema">Tema</label>
+                    <select name="Tema" class="form-control" id="tema">
+                        <!-- Recorremos la List generica que nos llega del modelo, tenemos que decirle que es un TTema si no dara error.-->
+                        @foreach (TGenero genero in Model)
+                        {
+
+                            //Ojo aqui, una cosa es el nombre a mostrar y otra diferente es el valor a asignar. A la propiedad Value se debe indicar el valor indice, en este caso es tema.Tema y entre
+                            //las >aqui< se debe poner el valor a mostrar. En este caso son ambos lo mismo. Pero por ejemplo una persona puede tener un ID y un Nombre, pues segun el caso podriamos poner
+                            //en el value el ID y entre >< el nombre, asi cuando hagamos el submit(Boton Guardar,enviar o como querais llamarlo) mandara el ID.
+                            <option value="@genero.Genero">@genero.Genero</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="paginas">Paginas</label>
+                    <input name="Paginas" type="text" required="" class="form-control" placeholder="Páginas" id="paginas" />
+                </div>
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    <input name="Precio" type="text" required="" class="form-control" placeholder="Precio" id="precio" />
+                </div>
+                <fieldset class="form-group">
+                    <legend>Formato:</legend>
+                    <input type="checkbox" name="Formatouno" value="Cartoné" id="cartone" />Cartoné <br>
+                    <input type="checkbox" name="Formatodos" value="Rústica" id="rustica" />Rústica<br>
+                    <input type="checkbox" name="Formatotres" value="Tapa Dura" id="tapa" />Tapa Dura<br>
+                </fieldset>
+                <fieldset class="form-group">
+                    <legend>Estado: </legend>
+                    <input type="radio" name="Estado" value="novedad" id="novedad" checked />Novedad<br />
+                    <input type="radio" name="Estado" value="reedicion" id="reedicion" />Reedición<br />
+                </fieldset>
+                <br>
+
+                <!-- Lo usamos para ver cómo se envían datos mediante javascript con Ajax-->
+                <div class="submit">
+                    <!-- Envío de datos con un INPUT tipo button -->
+                    <input id="botonEnviar" type="button" value="Insertar OK" class="btn btn-primary pull-right" onclick="Enviar()" />
+                    <!-- Envío de datos con un INPUT tipo submit (RECOMENDADO)-->
+                    <!--<input type="submit" id="botonEnviar" value="Insertar" class="btn btn-primary pull-right"  onclick="Enviar()" />-->
+                    <input type="submit" id="botonEnviar" value="Insertar" class="btn btn-primary pull-right" />
+                    <input type="submit" value="Registrar" class="btn btn-primary pull-right" id="button-blue" />
+                    <div class="ease"></div>
+                </div>
+                <br>
+                <div class="submit">
+                    <input type="reset" value="Borrar Campos" class="btn btn-danger pull-right" id="button-reset">
+                    <div class="ease"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    let $mensaje = document.querySelector('#mensaje');
+
+
+    function Enviar()
+    {
+        //----------------OJO OJO ---------------------->> event.preventDefault();
+        event.preventDefault();
+        var uri = '@Url.Action("addLibro", "Libro")';
+        var videojuego = {};
+        libro = cargarLibro(libro);
+        $.ajax({
+            url: uri,
+          data: JSON.stringify(libro),
+          type: 'POST',
+          success: exito,
+          contentType: 'application/json'
+        });
+    }
+    function exito(data) {
+        // Esta función se ejecuta cuando la petición AJAX ha tenido éxito visualizando el mensaje en html.
+        $mensaje.textContent = data;
+
+    }
+    function cargarLibro(libro) {
+
+        libro.Titulo = document.getElementById("titulo").value;
+        libro.Autor = document.getElementById("autor").value;
+        libro.Tema = document.getElementById("tema").value;
+        libro.Paginas = document.getElementById("paginas").value;
+        libro.Precio = document.getElementById("precio").value;
+        //var isChecked = document.getElementById('cartone').checked;
+        if (document.getElementById('cartone').checked)
+            libro.Formatouno = document.getElementById("cartone").value;
+        if (document.getElementById('rustica').checked)
+            libro.Formatodos = document.getElementById("rustica").value;
+        if (document.getElementById('tapa').checked)
+            libro.Formatotres = document.getElementById("tapa").value;
+
+        if (document.getElementById("novedad").checked)
+            libro.Estado = document.getElementById("novedad").value;
+        if (document.getElementById("reedicion").checked)
+            libro.Estado = document.getElementById("reedicion").value;
+        return libro;
+    }
+</script>
+

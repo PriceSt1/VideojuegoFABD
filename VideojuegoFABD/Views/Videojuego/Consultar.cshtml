@@ -1,0 +1,38 @@
+﻿@model List<VideojuegoFABD.Models.TVideojuego>
+@{
+    ViewBag.Title = "Consultar";
+}
+
+<div id="form-main">
+    <span id="totalibros">Total de Videojuegos: @Model.Count</span>
+    <ul id="myList">
+        @foreach (var videojuego in Model)
+        {
+            <li id="@videojuego.CodVideojuego">
+                @Ajax.ActionLink(videojuego.Titulo + " - Borrar", "borrarVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, new AjaxOptions()
+                {
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "totalVideojuegos",
+                }, new { id = @videojuego.CodVideojuego, onclick = "myFunction(id);" })
+
+                @Html.ActionLink(videojuego.Titulo + " - Ver", "verVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, null)
+                @Html.ActionLink(videojuego.Titulo + " - Editar", "modificarVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, null)
+            </li>
+        }
+    </ul>
+
+</div>
+
+<!--*****  Función javascript para el borrado ****************-->
+
+<script>
+    function myFunction(a) {
+        var list = document.getElementById(a);
+
+        if (list.hasChildNodes()) {
+            //list.removeChild(list.childNodes[0]);
+            list.parentNode.removeChild(list);
+        }
+    }
+</script>

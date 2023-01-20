@@ -145,8 +145,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Comun\Errores.cs" />
     <Compile Include="Comun\Mensaje.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
+    <Compile Include="Controllers\VideojuegoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -156,6 +156,7 @@
     <Compile Include="Models\TLineaFactura.cs" />
     <Compile Include="Models\TGenero.cs" />
     <Compile Include="Models\TVideojuego.cs" />
+    <Compile Include="Negocio\ControlAccesoDAO.cs" />
     <Compile Include="Persistencia\AccesoBD.cs" />
     <Compile Include="Persistencia\AccesoDAO.cs" />
     <Compile Include="Persistencia\ConexionJDBC.cs" />
@@ -195,15 +196,18 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Inicio\Index.cshtml" />
+    <Content Include="Views\Plantilla\Plantilla.cshtml" />
+    <Content Include="Views\Videojuego\_BorrarVideojuego.cshtml" />
+    <Content Include="Views\Videojuego\_VerVideojuego.cshtml" />
+    <Content Include="Views\Videojuego\addVideojuego.cshtml" />
+    <Content Include="Views\Videojuego\CarroCompra.cshtml" />
+    <Content Include="Views\Videojuego\Consultar.cshtml" />
+    <Content Include="Views\Videojuego\modificarVideojuego.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using VideojuegoFABD.Persistencia;
 
 namespace VideojuegoFABD
 {
@@ -16,6 +17,13 @@ namespace VideojuegoFABD
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Util.RellenarDictionarySentencias();
+        }
+
+        protected void Application_End()
+        {
+            Util.EscribirDictionarySentenciasFichero();
+            ConexionJDBC.CerrarConexion();
         }
     }
 }
