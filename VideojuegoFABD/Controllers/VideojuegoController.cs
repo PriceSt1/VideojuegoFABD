@@ -116,10 +116,10 @@ namespace VideojuegoFABD.Controllers
 
         }
         [HttpPost]
-        public ActionResult obtenerVideojuego(string CodLibro)
+        public ActionResult obtenerVideojuego(string CodVideojuego)
         {
             object[] modelos = new object[1];
-            modelos[0] = control.Buscar(new TVideojuego().GetType(), CodLibro);
+            modelos[0] = control.Buscar(new TVideojuego().GetType(), CodVideojuego);
             //Obtenemos los tipos de libros
             return Json(modelos);
         }

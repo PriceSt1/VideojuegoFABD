@@ -1,37 +1,45 @@
-﻿@model List<VideojuegoFABD.Models.TVideojuego>
+﻿@using VideojuegoFABD.Models;
+@model List<VideojuegoFABD.Models.TVideojuego>
 @{
     ViewBag.Title = "Consultar";
 }
 
-<div id="form-main">
-    <span id="totalibros">Total de Videojuegos: @Model.Count</span>
-    <ul id="myList">
-        @foreach (var videojuego in Model)
-        {
-            <li id="@videojuego.CodVideojuego">
-                @Ajax.ActionLink(videojuego.Titulo + " - Borrar", "borrarVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, new AjaxOptions()
-                {
-                    HttpMethod = "GET",
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "totalVideojuegos",
-                }, new { id = @videojuego.CodVideojuego, onclick = "myFunction(id);" })
+<div class="container">
+    <center>
+        <!--span id="totadiscos">Discos a la venta: @Model.Count</!--span><br /><br /-->
+        <div class="modal-body row" id="modal-champions-body">
+            @foreach (var videojuego in Model)
+            {
+                <div id="@videojuego.CodVideojuego">
+                    <div><img alt="Portada" src=@videojuego.Portada width="200" height="200"></div>
+                    <div>
+                        @Html.ActionLink(videojuego.Titulo, "verVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, new { @class = "text-dark" })
+                    </div>
+                    @{ if (Session["usuario"] != null && ((TUsuario)Session["usuario"]).Rol.Equals("admin"))
+                        {
+                            <div>@Html.ActionLink(" Editar ", "modificarVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, null)</div>
 
-                @Html.ActionLink(videojuego.Titulo + " - Ver", "verVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, null)
-                @Html.ActionLink(videojuego.Titulo + " - Editar", "modificarVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, null)
-            </li>
-        }
-    </ul>
-
+                            <div>
+                                @Ajax.ActionLink(" Borrar ", "borrarVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, new AjaxOptions()
+                                {
+                                    HttpMethod = "GET",
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "totadiscos",
+                                }, new { id = @videojuego.CodVideojuego, onclick = "myFunction(id);" })
+                            </div>
+                        }
+                    }
+                    <div><br /></div>
+                </div>
+            }
+        </div>
+    </center>
 </div>
-
-<!--*****  Función javascript para el borrado ****************-->
 
 <script>
     function myFunction(a) {
         var list = document.getElementById(a);
-
         if (list.hasChildNodes()) {
-            //list.removeChild(list.childNodes[0]);
             list.parentNode.removeChild(list);
         }
     }

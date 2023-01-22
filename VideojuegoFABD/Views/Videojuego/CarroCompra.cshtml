@@ -1,7 +1,149 @@
-﻿
+﻿@model List<VideojuegoFABD.Models.TVideojuego>
 @{
     ViewBag.Title = "CarroCompra";
 }
 
-<h2>CarroCompra</h2>
+<div class="container">
+    <center>
+        <!--span id="totadiscos">Total de discos: @Model.Count</span-->
+        <div class="modal-body row" id="modal-champions-body">
+            @foreach (var videojuego in Model)
+            {
+                <div id="@videojuego.CodVideojuego">
+                    <div><img alt="Portada" src=@videojuego.Portada width="150" height="150"></div>
+                    <div>
+                        @Ajax.ActionLink(@videojuego.Titulo, "obtenerVideojuego", "Videojuego", new { CodVideojeugo = @videojuego.CodVideojuego }, new AjaxOptions()
+                        {
+                            HttpMethod = "POST",
+                            OnSuccess = "success",
+                        }, new { @class = "text-dark" })
+                    </div>
+                    <div><br /></div>
+                </div>
+            }
+        </div>
+    </center>
+</div>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <main id="items" class="col-sm-8 row"></main>
+        <aside class="col-sm-6">
+            <h2>Carrito</h2>
+            <ul id="carrito" class="list-group"></ul>
+            <hr>
+            <p class="text-right">Total: <span id="total"></span>&euro;</p>
+            <a class="btn btn-primary btn-sm" style="width: 70px" id="botonEnviar" onclick="comprar()">Comprar</a>
+        </aside>
+    </div>
+</div>
+<br />
+<br />
+<p class="text-left">Mensaje: <span id="mensaje"></span></p>
+
+
+
+<script type="text/javascript">
+
+    let $items = document.querySelector('#items');
+    let total = 0.0;
+    let $carrito = document.querySelector('#carrito');
+    let $total = document.querySelector('#total');
+    let $mensaje = document.querySelector('#mensaje');
+    let carrito;
+    if (localStorage.carrito !== undefined)
+        carrito = JSON.parse(localStorage.carrito);
+    if (carrito === undefined)
+        carrito = []
+    else
+    {
+        renderizarCarrito(carrito);
+        calcularTotal(carrito);
+    }
+
+    function success(data) {
+        anyadirCarrito(data);
+        localStorage.carrito = JSON.stringify(carrito);
+    }
+
+    function anyadirCarrito(dato) {
+        carrito.push(dato);
+        calcularTotal(carrito);
+        renderizarCarrito(carrito);
+    }
+
+    function calcularTotal(carrito) {
+        total = 0;
+        for (let miItem of carrito) {
+            total = total + parseFloat(miItem[0]['Precio']);
+        }
+        $total.textContent = total.toFixed(2);
+
+        carro = carrito;
+        calcularT(carro)
+        renderizarCarro(carro);
+    }
+
+    function renderizarCarrito(carrito) {
+        $carrito.textContent = '';
+        var indice = 0;
+        for (let miItem of carrito)
+        {
+            let miNodo = document.createElement('li');
+            miNodo.classList.add('list-group-item', 'text-right');
+            miNodo.textContent = `${miItem[0]['Titulo']} - ${miItem[0]['Precio']}€`
+            let miBoton = document.createElement('button');
+            miBoton.classList.add('btn', 'btn-danger', 'mx-5');
+            miBoton.textContent = 'X';
+            miBoton.setAttribute('posicion', indice);
+            indice = indice + 1;
+            miBoton.addEventListener('click', borrarItemCarrito);
+            miNodo.appendChild(miBoton);
+            $carrito.appendChild(miNodo);
+        }
+    }
+
+    function borrarItemCarrito() {
+        carrito.splice(this.getAttribute('posicion'), 1);
+        localStorage.removeItem("carrito");
+        localStorage.carrito = JSON.stringify(carrito);
+        renderizarCarrito(carrito);
+        calcularTotal(carrito);
+    }
+
+    function comprar() {
+        var uri = '@Url.Action("comprar", "Videojuego")';
+        var lineas = lineasFactura(carrito);
+        $.ajax({
+            url: uri,
+            data: JSON.stringify(lineas),
+            type: 'POST',
+            success: exito,
+            contentType: 'application/json'
+        });
+    }
+
+    function exito(data) {
+        $mensaje.textContent = data;
+        localStorage.removeItem("carrito");
+    }
+
+    function lineasFactura(carrito)
+    {
+        var lineas = [];
+        var lf = {};
+        for (let miItem of carrito) {
+            lf = {};
+            lf.Disco = miItem[0].CodDisco;
+            lf.Cantidad = 1;
+            lf.Total = miItem[0].Precio;
+            lineas.push(lf);
+        }
+        return lineas;
+    }
+
+</script>
 
