@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Reflection;
 using MySqlConnector;
 
 namespace VideojuegoFABD.Persistencia
 {
-    public class AccesoBD 
+    public class AccesoBD
     {
         private static MySqlConnection connection = null;
         private MySqlTransaction transaccion;
@@ -15,21 +16,23 @@ namespace VideojuegoFABD.Persistencia
         {
             try
             {
-                connection = ConexionJDBC.AbrirConexion();
+                connection = Conexion.getConnection();
             }
             catch (Exception e)
             {
 
                 throw new Exception(e.Message, e);
             }
-            
-           
+
+
         }
 
         public bool Insertar(string sql, object objecto, string antiguo)
         {
+            
             try
             {
+                StartTransaction();
                 //"SELECT * FROM admin WHERE admin_username=@val1 AND admin_password=PASSWORD(@val2)"
                 comando = new MySqlCommand(sql, connection); ///Esto es como preparedStatement
                 Dictionary<string, object> map = ObtenerDictionaryValorPropiedades(objecto);
@@ -42,22 +45,27 @@ namespace VideojuegoFABD.Persistencia
                 {
                     comando.Parameters.AddWithValue("@" + index, antiguo);
                 }
-
+                Commit();
             }
-            catch (Exception) { throw; }
-            
+            catch (Exception) {
+                RollBack();
+                throw; }
+
             return comando.ExecuteNonQuery() > 0;
 
-            }
+        }
         public bool Borrar(string sql, object objeto)
         {
             try
             {
+                StartTransaction();
                 comando = new MySqlCommand(sql, connection);
                 comando.Parameters.AddWithValue("@1", ObtenerValorClavePrimaria(objeto));
+                Commit();
             }
             catch (Exception)
             {
+                RollBack();
                 throw;
             }
             return comando.ExecuteNonQuery() > 0;
@@ -163,10 +171,9 @@ namespace VideojuegoFABD.Persistencia
                 sqlDataReader.Close();
             }
         }
-
         public void StartTransaction()
         {
-            transaccion = connection.BeginTransaction();
+            transaccion = Conexion.getConnection().BeginTransaction();
         }
 
         public void RollBack()
@@ -181,7 +188,44 @@ namespace VideojuegoFABD.Persistencia
 
         public void CloseConnection()
         {
-            connection.Close();
+            Conexion.CerrarConexion();
+        }
+
+        public class Conexion
+        {
+            private static MySqlConnection connection;
+
+            /*  
+             *  Abre la conexion con la base de datos
+             */
+            public static MySqlConnection getConnection()
+            {
+                if (connection == null)
+                {
+                    try
+                    {
+                        connection = new MySqlConnection();
+                        connection.ConnectionString =
+                            "Server=" + ConfigurationManager.AppSettings["servidor"].ToString()
+                            + ";Database=" + ConfigurationManager.AppSettings["baseDatos"].ToString()
+                            + ";Uid=" + ConfigurationManager.AppSettings["usuario"].ToString()
+                            + ";Pwd=" + ConfigurationManager.AppSettings["password"].ToString() + ";";
+                        connection.Open();
+
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+                return connection;
+            }
+
+            public static void CerrarConexion()
+            {
+                if (connection != null) connection.Close();
+
+            }
         }
     }
 }

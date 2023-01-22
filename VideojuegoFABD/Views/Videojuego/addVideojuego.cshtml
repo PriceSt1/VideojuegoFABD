@@ -6,27 +6,31 @@ Tambien el modelo, como he dicho llega una LIST de objets (List<Object>)
 
 <h3 style="margin-bottom: 25px; text-align: center;">Añadir Libro</h3>
 <!-- Elemento para poner el mensaje en la página -->
-<p class="text-left">Mensaje: <span id="mensaje"></span></p>
+<p class="text-left" style="padding-left:10px">Inserta tu videojuego: <span id="mensaje"></span></p>
 <!--******************************************************************-->
 
 <div class="container">
     <div class="col-md-10">
         <div class="form-area">
-            <!-- Creamos un formulario de HTML, creando los campos tantos como tenga el tipo libro(Titulo,autor,tema,paginas.... etc)-->
+            <!-- Utilizo el formulario HTML base para crear el formulario-->
             <form class="form" method="post" id="my_form" onsubmit="Enviar()">
                 <!--<form class="form" method="post" id="my_form">-->
                 <div class="form-group">
-                    <label for="titulo">Titulo</label>
+                    <label for="titulo">Titulo:</label>
                     <!-- Hay que tener en cuenta que el id tiene que tener el mismo nombre que el nombre de la propiedad del objeto, que en este caso es libro. Asi con los necesarios.-->
                     <input name="Titulo" type="text" maxlength="30" required="" class="form-control" placeholder="Título" id="titulo" />
                 </div>
                 <div class="form-group">
-                    <label for="autor">Autor</label>
-                    <input name="Autor" type="text" maxlength="30" minlength="5" required="" class="form-control" placeholder="Autor" id="autor" />
+                    <label for="desarrollador">Desarrollador:</label>
+                    <input name="Desarrollador" type="text" maxlength="30" required="" class="form-control" placeholder="Desarrollador" id="desarrollador" />
                 </div>
                 <div class="form-group">
-                    <label for="tema">Tema</label>
-                    <select name="Tema" class="form-control" id="tema">
+                    <label for="editor">Editora:</label>
+                    <input name="Editor" type="text" maxlength="30" minlength="5" required="" class="form-control" placeholder="Editora" id="editor" />
+                </div>
+                <div class="form-group">
+                    <label for="genero">Genero:</label>
+                    <select name="Genero" class="form-control" id="genero">
                         <!-- Recorremos la List generica que nos llega del modelo, tenemos que decirle que es un TTema si no dara error.-->
                         @foreach (TGenero genero in Model)
                         {
@@ -38,36 +42,39 @@ Tambien el modelo, como he dicho llega una LIST de objets (List<Object>)
                         }
                     </select>
                 </div>
-
-                <div class="form-group">
-                    <label for="paginas">Paginas</label>
-                    <input name="Paginas" type="text" required="" class="form-control" placeholder="Páginas" id="paginas" />
-                </div>
                 <div class="form-group">
                     <label for="precio">Precio</label>
                     <input name="Precio" type="text" required="" class="form-control" placeholder="Precio" id="precio" />
                 </div>
-                <fieldset class="form-group">
-                    <legend>Formato:</legend>
-                    <input type="checkbox" name="Formatouno" value="Cartoné" id="cartone" />Cartoné <br>
-                    <input type="checkbox" name="Formatodos" value="Rústica" id="rustica" />Rústica<br>
-                    <input type="checkbox" name="Formatotres" value="Tapa Dura" id="tapa" />Tapa Dura<br>
-                </fieldset>
-                <fieldset class="form-group">
-                    <legend>Estado: </legend>
-                    <input type="radio" name="Estado" value="novedad" id="novedad" checked />Novedad<br />
-                    <input type="radio" name="Estado" value="reedicion" id="reedicion" />Reedición<br />
-                </fieldset>
+                <div class="form-group">
+                    <label for="fechalanzamiento">Fecha de lanzamiento:</label>
+                    <input name="Fechalanzamiento" type="date" required="" class="form-control" placeholder="Fechalanzamiento" id="fechalanzamiento" />
+                </div>
+                <div class="form-group">
+                    <label for="idioma">Idioma:</label>
+                    <input name="Idioma" type="text" required="" class="form-control" placeholder="Idioma" id="idioma" />
+                </div>
+                <div class="form-group">
+                    <label for="pegi">Pegi:</label>
+                    <input name="Pegi" type="text" required="" class="form-control" placeholder="Pegi" id="pegi" />
+                </div>
+                <div class="form-group">
+                    <label for="portada">Portada:</label>
+                    <input name="Portada" type="text" required="" class="form-control" placeholder="Portada" id="portada" />
+                </div>
+                <div class="form-group">
+                    <label for="trailer">Trailer:</label>
+                    <input name="Trailer" type="text" required="" class="form-control" placeholder="Trailer" id="trailer" />
+                </div>
                 <br>
-
                 <!-- Lo usamos para ver cómo se envían datos mediante javascript con Ajax-->
                 <div class="submit">
                     <!-- Envío de datos con un INPUT tipo button -->
-                    <input id="botonEnviar" type="button" value="Insertar OK" class="btn btn-primary pull-right" onclick="Enviar()" />
+                    <!--<input id="botonEnviar" type="button" value="Insertar OK" class="btn btn-primary pull-right" onclick="Enviar()" />-->
                     <!-- Envío de datos con un INPUT tipo submit (RECOMENDADO)-->
-                    <!--<input type="submit" id="botonEnviar" value="Insertar" class="btn btn-primary pull-right"  onclick="Enviar()" />-->
-                    <input type="submit" id="botonEnviar" value="Insertar" class="btn btn-primary pull-right" />
-                    <input type="submit" value="Registrar" class="btn btn-primary pull-right" id="button-blue" />
+                    <input type="submit" id="botonEnviar" value="Insertar" class="btn btn-primary pull-right"  onclick="Enviar()" />
+                    <!--<input type="submit" id="botonEnviar" value="Insertar" class="btn btn-primary pull-right" />
+                    <input type="submit" value="Registrar" class="btn btn-primary pull-right" id="button-blue" />-->
                     <div class="ease"></div>
                 </div>
                 <br>
@@ -90,12 +97,12 @@ Tambien el modelo, como he dicho llega una LIST de objets (List<Object>)
     {
         //----------------OJO OJO ---------------------->> event.preventDefault();
         event.preventDefault();
-        var uri = '@Url.Action("addLibro", "Libro")';
+        var uri = '@Url.Action("addVideojuego", "Videojuego")';
         var videojuego = {};
-        libro = cargarLibro(libro);
+        videojuego = cargarVideojuego(videojuego);
         $.ajax({
-            url: uri,
-          data: JSON.stringify(libro),
+          url: uri,
+          data: JSON.stringify(videojuego),
           type: 'POST',
           success: exito,
           contentType: 'application/json'
@@ -106,26 +113,19 @@ Tambien el modelo, como he dicho llega una LIST de objets (List<Object>)
         $mensaje.textContent = data;
 
     }
-    function cargarLibro(libro) {
+    function cargarVideojuego(videojuego) {
 
-        libro.Titulo = document.getElementById("titulo").value;
-        libro.Autor = document.getElementById("autor").value;
-        libro.Tema = document.getElementById("tema").value;
-        libro.Paginas = document.getElementById("paginas").value;
-        libro.Precio = document.getElementById("precio").value;
-        //var isChecked = document.getElementById('cartone').checked;
-        if (document.getElementById('cartone').checked)
-            libro.Formatouno = document.getElementById("cartone").value;
-        if (document.getElementById('rustica').checked)
-            libro.Formatodos = document.getElementById("rustica").value;
-        if (document.getElementById('tapa').checked)
-            libro.Formatotres = document.getElementById("tapa").value;
-
-        if (document.getElementById("novedad").checked)
-            libro.Estado = document.getElementById("novedad").value;
-        if (document.getElementById("reedicion").checked)
-            libro.Estado = document.getElementById("reedicion").value;
-        return libro;
+        videojuego.Titulo = document.getElementById("titulo").value;
+        videojuego.Desarrollador = document.getElementById("desarrollador").value;
+        videojuego.Editor = document.getElementById("editor").value;
+        videojuego.Genero = document.getElementById("genero").value;
+        videojuego.Precio = document.getElementById("precio").value;
+        videojuego.Fechalanzamiento = document.getElementById("fechalanzamiento").value;
+        videojuego.Idioma = document.getElementById("idioma").value;
+        videojuego.Pegi = document.getElementById("pegi").value;
+        videojuego.Portada = document.getElementById("portada").value;
+        videojuego.Trailer = document.getElementById("trailer").value;
+        return videojuego;
     }
 </script>
 

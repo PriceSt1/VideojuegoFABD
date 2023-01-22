@@ -5,7 +5,7 @@ namespace VideojuegoFABD.Persistencia
 {
     interface IAcceso<obj>
     {
-        bool Insertar(List<object> objeto);
+        bool Insertar(obj objeto);
         bool Borrar(Object objeto);
         bool BorradoVirtual(Object objeto);
         Object Buscar(Type clase, String nombre);

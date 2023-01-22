@@ -17,9 +17,9 @@ namespace VideojuegoFABD.Models
         public string FechaLanzamiento { get; set; }
         public string Idioma { get; set; }
         public string Pegi { get; set; }
-        public string Borrado { get; set; }
         public string Portada { get; set; }
         public string Trailer { get; set; }
+        public string Borrado { get; set; }
 
         public TVideojuego(string codVideojuego, string titulo, string desarrollador, string editor, string genero, string precio, string fechaLanzamiento, string idioma, string pegi, string borrado, string portada, string trailer)
         {

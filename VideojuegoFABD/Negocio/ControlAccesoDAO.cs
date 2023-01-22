@@ -30,7 +30,7 @@ namespace VideojuegoFABD.Negocio
             return ((IAcceso<T>)accesoDAO).Buscar(clase, campo, busqueda);
         }
 
-        public bool Insertar(List<object> objeto)
+        public bool Insertar(T objeto)
         {
             return ((IAcceso<T>)accesoDAO).Insertar(objeto);
         }

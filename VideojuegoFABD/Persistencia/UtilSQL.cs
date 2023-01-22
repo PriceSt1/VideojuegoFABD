@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MySqlConnector;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace VideojuegoFABD.Persistencia
@@ -37,7 +39,7 @@ namespace VideojuegoFABD.Persistencia
             int index = 1;
             foreach (var item in AccesoBD.ObtenerNombrePropiedades(objeto.GetType()))
             {
-                sql.Append(item+" = @" + (index++) + " , ");
+                sql.Append(item + " = @" + (index++) + " , ");
             }
             sql.Remove(sql.Length - 2, 2);
             sql.Append("WHERE " + obtenerClave(objeto.GetType()) + " = @" + index);

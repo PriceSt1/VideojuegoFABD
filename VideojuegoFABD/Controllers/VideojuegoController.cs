@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using VideojuegoFABD.Comun;
 using VideojuegoFABD.Models;
@@ -30,9 +28,9 @@ namespace VideojuegoFABD.Controllers
             return View(list);
         }
 
-        public PartialViewResult borrarVideojuego(string CodeVideojuego)
+        public PartialViewResult borrarVideojuego(string CodVideojuego)
         {
-            control.BorradoVirtual((TVideojuego)control.Buscar(new TVideojuego().GetType(), CodeVideojuego));
+            control.BorradoVirtual((TVideojuego)control.Buscar(new TVideojuego().GetType(), CodVideojuego));
             object[] modelos = new object[1];
             //Obtenemos los tipos de libros
             modelos[0] = control.Obtener(new TVideojuego().GetType());
@@ -51,20 +49,20 @@ namespace VideojuegoFABD.Controllers
         //Aqui repetimos el mismo metodo, pero le entra un Libro.
         //Esto es una anotacion, dice que es un metodo post. 
         [HttpPost]
-        public ActionResult addLibro(TVideojuego videojuego)
+        public ActionResult addVideojuego(TVideojuego videojuego)
         {
             try
             {
-                List<object> libros = new List<object>();
+                List<object> videojuegos = new List<object>();
                 //Hacemos la operaciones necesarias para guardar el nuevo libro.
                 videojuego.Precio = videojuego.Precio.Replace(".", ",");
                 videojuego.CodVideojuego = Util.GenerarCodigo(videojuego.GetType());
                 videojuego.Borrado = "0";
                 //
-                libros.Add((TVideojuego)videojuego);
-                if (control.Insertar(libros))
+                videojuegos.Add((TVideojuego)videojuego);
+                if (control.Insertar(videojuego))
                 {
-                    return Json("Libro insertado correctamente");
+                    return Json("Videojuego insertado correctamente");
                 }
 
             }
@@ -72,7 +70,7 @@ namespace VideojuegoFABD.Controllers
             {
                 return Json(Errores.ControlErrores(e));
             }
-            return RedirectToAction("addLibro");
+            return RedirectToAction("Inicio");
         }
 
         public ActionResult modificarVideojuego(string codVideojuego)
@@ -99,7 +97,7 @@ namespace VideojuegoFABD.Controllers
             }
             catch (Exception e)
             {
-                return Content(Mensaje.mostrarmensaje(Errores.ControlErrores(e), "modificarLibro"));
+                return Content(Mensaje.mostrarmensaje(Errores.ControlErrores(e), "modificarVideojuego"));
             }
         }
         //

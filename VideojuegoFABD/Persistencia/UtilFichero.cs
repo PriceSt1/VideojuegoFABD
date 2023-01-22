@@ -8,7 +8,7 @@ namespace VideojuegoFABD.Persistencia
 {
     public static class Util
     {
-        private static string ruta = AppDomain.CurrentDomain.BaseDirectory+"sql.txt";
+        private static string ruta = AppDomain.CurrentDomain.BaseDirectory + "sql.txt";
         private static Dictionary<string, string> SENTENCIAS;
         static BinaryFormatter serializer = new BinaryFormatter();
 
@@ -35,7 +35,7 @@ namespace VideojuegoFABD.Persistencia
 
         public static void RellenarDictionarySentencias()
         {
-            
+
             if (ComprobarArchivo() && File.ReadAllLines(ruta).Count() > 0)
             {
                 using (var stream = File.OpenRead(ruta))
@@ -53,7 +53,7 @@ namespace VideojuegoFABD.Persistencia
 
         public static void EscribirDictionarySentenciasFichero()
         {
-            if (ComprobarArchivo()&&SENTENCIAS!=null)
+            if (ComprobarArchivo() && SENTENCIAS != null)
             {
                 using (var stream = File.OpenWrite(ruta))
                 {
@@ -95,6 +95,6 @@ namespace VideojuegoFABD.Persistencia
                 return "cod00" + indice;
         }
 
-      
+
     }
 }

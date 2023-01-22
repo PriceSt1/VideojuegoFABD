@@ -10,14 +10,14 @@ namespace VideojuegoFABD.Models
     {
 
         public string CodFactura { get; set; }
-        public string Libro { get; set; }
+        public string Videojuego { get; set; }
         public string Cantidad { get; set; }
         public string Total { get; set; }
 
-        public TLineaFactura(string codFactura, string libro, string cantidad, string total)
+        public TLineaFactura(string codFactura, string videojuego, string cantidad, string total)
         {
             CodFactura = codFactura;
-            Libro = libro;
+            Videojuego = videojuego;
             Cantidad = cantidad;
             Total = total;
         }
@@ -28,11 +28,11 @@ namespace VideojuegoFABD.Models
 
         public override string ToString()
         {
-            return Libro+" "+Cantidad+" "+Total;
+            return Videojuego+" "+Cantidad+" "+Total;
         }
         public override bool Equals(object obj)
         {
-            return ((TLineaFactura)obj).Libro == Libro;
+            return ((TLineaFactura)obj).Videojuego == Videojuego;
         }
     }
 }

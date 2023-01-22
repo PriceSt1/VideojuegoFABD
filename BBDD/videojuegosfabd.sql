@@ -20,6 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `videojuegosfabd`
 --
+DROP DATABASE IF EXISTS videojuegosfabd;
+CREATE DATABASE videojuegosfabd;
+USE videojuegosfabd;
 
 -- --------------------------------------------------------
 
@@ -73,8 +76,8 @@ INSERT INTO `tgenero` (`genero`, `borrado`) VALUES
 ('Indie', 0),
 ('MMORPG', 0),
 ('Accion', 0),
-('MMORPG', 0),
-('Accion', 0);
+('Simulacion', 0),
+('Espacio', 0);
 
 -- --------------------------------------------------------
 
@@ -110,6 +113,7 @@ CREATE TABLE `tlineafactura` (
 
 CREATE TABLE `tvideojuego` (
   `codvideojuego` varchar(6) DEFAULT NULL,
+  `titulo` varchar (40) DEFAULT NULL,
   `desarrollador` varchar(40) DEFAULT NULL,
   `editor` varchar(40) DEFAULT NULL,
   `genero` varchar(30) DEFAULT NULL,
@@ -117,8 +121,8 @@ CREATE TABLE `tvideojuego` (
   `fechalanzamiento` varchar(30) DEFAULT NULL,
   `idioma` varchar(30) DEFAULT NULL,
   `pegi` varchar(2) DEFAULT NULL,
-  `portada` varchar(40) DEFAULT NULL,
-  `trailer` varchar(50) DEFAULT NULL,
+  `portada` TEXT DEFAULT NULL,
+  `trailer` TEXT DEFAULT NULL,
   `borrado` varchar(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 COMMIT;
