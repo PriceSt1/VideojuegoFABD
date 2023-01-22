@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VideojuegoFABD.Models
 {
-    class TCliente
+    public class TCliente
     {
    
         public string CodCliente { get; set; }

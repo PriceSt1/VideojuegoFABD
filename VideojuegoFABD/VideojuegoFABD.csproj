@@ -136,16 +136,19 @@
     <Compile Include="Comun\Errores.cs" />
     <Compile Include="Comun\Mensaje.cs" />
     <Compile Include="Controllers\InicioController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VideojuegoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LineaAuxiliar.cs" />
     <Compile Include="Models\TCliente.cs" />
     <Compile Include="Models\TFactura.cs" />
     <Compile Include="Models\TIdioma.cs" />
     <Compile Include="Models\TLinea.cs" />
     <Compile Include="Models\TLineaFactura.cs" />
     <Compile Include="Models\TGenero.cs" />
+    <Compile Include="Models\TUsuario.cs" />
     <Compile Include="Models\TVideojuego.cs" />
     <Compile Include="Negocio\ControlAccesoDAO.cs" />
     <Compile Include="Persistencia\AccesoBD.cs" />
@@ -209,6 +212,8 @@
     <Content Include="Views\Videojuego\CarroCompra.cshtml" />
     <Content Include="Views\Videojuego\Consultar.cshtml" />
     <Content Include="Views\Videojuego\modificarVideojuego.cshtml" />
+    <Content Include="Views\Usuario\detalleFactura.cshtml" />
+    <Content Include="Views\Usuario\verFacturas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

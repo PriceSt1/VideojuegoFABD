@@ -60,7 +60,7 @@ namespace VideojuegoFABD.Controllers
                 videojuego.Borrado = "0";
                 //
                 videojuegos.Add((TVideojuego)videojuego);
-                if (control.Insertar(videojuego))
+                if (control.Insertar(videojuegos))
                 {
                     return Json("Videojuego insertado correctamente");
                 }

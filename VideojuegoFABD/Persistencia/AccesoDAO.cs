@@ -85,26 +85,31 @@ namespace VideojuegoFABD.Persistencia
             return acceso.Consultar(sql, clase, "");
         }
 
-        public bool Insertar(T objeto)
+        public bool Insertar(List<object> list)
         {
             AccesoBD acceso = new AccesoBD();
             string sql;
-            if ((sql = Util.ExisteSentencia("INSERTAR" + objeto.GetType().Name)) == null)
+            try
             {
-                if (acceso.Insertar(Util.GuardarSQL("INSERTAR" + objeto.GetType().Name, UtilSQL.SqlInsertar(objeto)), objeto, ""))
+                foreach (var obj in list)
                 {
-                    return true;
-                }
-            }
-            else
-            {
-                if (acceso.Insertar(sql, objeto, ""))
-                {
-                    return true;
-                }
-            }
-            return false;
+                    if ((sql = Util.ExisteSentencia("INSERTAR" + obj.GetType().Name)) == null)
+                    {
+                        acceso.Insertar(
+                            Util.GuardarSQL("INSERTAR" + obj.GetType().Name, UtilSQL.SqlInsertar(obj)), obj, "");
+                    }
+                    else
+                    {
+                        acceso.Insertar(sql, obj, "");
 
+                    }
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public bool Modificar(string nombre, T objeto)

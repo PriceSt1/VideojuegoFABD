@@ -1,0 +1,16 @@
+﻿@using VideojuegoFABD.Models;
+@model List<object>
+@{
+    ViewBag.Title = "verFacturas";
+    Layout = "~/Views/Plantilla/Plantilla.cshtml";
+}
+<h2>Facturas</h2>
+
+@foreach (TFactura factura in Model)
+{
+
+
+    @Html.ActionLink("Factura " + @factura.CodFactura + " con fecha " + @factura.FechaFactura,
+    "detalleFactura", "Usuario", new { CodFactura = @factura.CodFactura }, new { @class = "text-dark" })
+    <br />
+}

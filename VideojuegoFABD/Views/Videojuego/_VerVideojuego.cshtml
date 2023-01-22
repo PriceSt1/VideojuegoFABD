@@ -1,24 +1,37 @@
 ﻿@model VideojuegoFABD.Models.TVideojuego
 @{
-    //ViewBag.Title = "_VerVideojuego";
-    //Layout = "~/Views/Plantilla/Plantilla.cshtml";
+    ViewBag.Title = "VerVideojuego";
+    Layout = "~/Views/Plantilla/Plantilla.cshtml";
 }
 
 <!--Mostramos los datos en limpio-->
 
 <div>
-    <h4> DATOS DE LOS VIDEJUEGOS </h4>
+    <center><h4> DATOS DEL DISCO </h4></center>
+</div>
 
-    @Model.Titulo
-    @Model.CodVideojuego
-    @Model.Editor
-    @Model.Desarrollador
-    @Model.Genero
-    @Model.Precio
-    @Model.FechaLanzamiento
-    @Model.Idioma
-    @Model.Pegi
-    @Model.Portada
-    @Model.Trailer
+<br />
+<br />
+<br />
+
+<div class="container">
+    <div class="row">
+        <img border="1" alt="Portada" src=@Model.Portada width="150" height="150">
+    </div>
+    <div class="row">
+        <label class="col-sm-5">Título</label><span class="prop-border col-sm-7">@Model.Titulo</span>
+    </div>
+    <div class="row">
+        <label class="col-sm-5">Autor</label><span class="prop-border col-sm-7">@Model.Desarrollador</span>
+    </div>
+    <div class="row">
+        <label class="col-sm-5">Numero de canciones</label><span class="prop-border col-sm-7">@Model.Canciones</span>
+    </div>
+    <div class="row">
+        <label class="col-sm-5">Precio</label><span class="prop-border col-sm-7">@Model.Precio</span>
+    </div>
+    <div class="row">
+        <label class="col-sm-5">Género</label><span class="prop-border col-sm-7">@Model.Genero</span>
+    </div>
 </div>
 

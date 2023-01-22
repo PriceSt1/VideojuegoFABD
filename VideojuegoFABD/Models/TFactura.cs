@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VideojuegoFABD.Models
 {
-    class TFactura
+    public class TFactura
     {
       
 

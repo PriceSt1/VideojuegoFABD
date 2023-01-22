@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VideojuegoFABD.Models
 {
-    class TLineaFactura
+    public class TLineaFactura
     {
 
         public string CodFactura { get; set; }
