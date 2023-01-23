@@ -11,11 +11,6 @@ namespace VideojuegoFABD.Controllers
     public class VideojuegoController : Controller
     {
         private ControlAccesoDAO<TVideojuego> control = new ControlAccesoDAO<TVideojuego>();
-        //***********************************************************************************************
-        // Opciones del menú :    Consultar
-        //                        Añadir Libro
-        //                        Carro Compra
-        //***********************************************************************************************
         public ActionResult Consultar()
         {
             List<TVideojuego> list = new List<TVideojuego>();
@@ -27,7 +22,6 @@ namespace VideojuegoFABD.Controllers
 
             return View(list);
         }
-
         public PartialViewResult borrarVideojuego(string CodVideojuego)
         {
             control.BorradoVirtual((TVideojuego)control.Buscar(new TVideojuego().GetType(), CodVideojuego));
@@ -40,14 +34,10 @@ namespace VideojuegoFABD.Controllers
         {
             return PartialView("_verVideojuego", (TVideojuego)control.Buscar(new TVideojuego().GetType(), CodVideojuego));
         }
-        // Creamos el metodo addLibro que manda a la vista una lista de objetos genericos, en este caso necesitamos la lista de temas-
         public ActionResult addVideojuego()
-        {   //Obtenemos la lisa de temas
+        { 
             return View(control.Obtener(new TGenero().GetType()));
         }
-
-        //Aqui repetimos el mismo metodo, pero le entra un Libro.
-        //Esto es una anotacion, dice que es un metodo post. 
         [HttpPost]
         public ActionResult addVideojuego(TVideojuego videojuego)
         {
@@ -72,21 +62,15 @@ namespace VideojuegoFABD.Controllers
             }
             return RedirectToAction("Inicio");
         }
-
         public ActionResult modificarVideojuego(string codVideojuego)
         {
-            //Creamos el array de objetos de 2 posiciones, en el guardaremos el libro y la lista de Temas.
             object[] modelos = new object[2];
-            //Obtenermos el libro en a editar en concreto.
             modelos[0] = control.Buscar(new TVideojuego().GetType(), codVideojuego);
-            //Obtenemos los tipos de libros
             modelos[1] = control.Obtener(new TGenero().GetType());
-            //Devolvemos el array a la vista.
             return View(modelos);
         }
-
         [HttpPost]
-        public ActionResult modificarVideojuego(TVideojuego videojuego)
+        public ActionResult modificarVideojuegos(TVideojuego videojuego)
         {
             try
             {
@@ -100,9 +84,14 @@ namespace VideojuegoFABD.Controllers
                 return Content(Mensaje.mostrarmensaje(Errores.ControlErrores(e), "modificarVideojuego"));
             }
         }
-        //
-        //  Métodos utilizados para gestionar el carro de la compra
-        //
+
+        [HttpPost]
+        public ActionResult obtenerVideojuego(string CodVideojuego)
+        {
+            object[] modelos = new object[1];
+            modelos[0] = control.Buscar(new TVideojuego().GetType(), CodVideojuego);
+            return Json(modelos);
+        }
         public ActionResult carroCompra()
         {
             List<TVideojuego> list = new List<TVideojuego>();
@@ -116,23 +105,12 @@ namespace VideojuegoFABD.Controllers
 
         }
         [HttpPost]
-        public ActionResult obtenerVideojuego(string CodVideojuego)
-        {
-            object[] modelos = new object[1];
-            modelos[0] = control.Buscar(new TVideojuego().GetType(), CodVideojuego);
-            //Obtenemos los tipos de libros
-            return Json(modelos);
-        }
-
-        [HttpPost]
         public ActionResult comprar(List<TLinea> data)
         {
-            //******************** Grabar objeto FACTURA *************************************************
-            TFactura factura = new TFactura("cod022", "admin", DateTime.Now.ToShortDateString());
+            TFactura factura = new TFactura("", ((TUsuario)Session["usuario"]).Nick, DateTime.Now.ToShortDateString());
+            factura.CodFactura = Util.GenerarCodigo(factura.GetType());
             List<object> listaFacturaTemp = new List<object>();
             listaFacturaTemp.Add(factura);
-            //control.Insertar(listaFacturaTemp);
-            //******************** Grabar las Líneas de Factura.
             List<object> listaLineasFactura = new List<object>();
 
             foreach (TLinea linea in data)
@@ -141,8 +119,8 @@ namespace VideojuegoFABD.Controllers
                 listaLineasFactura.Add(lineaTemp);
             }
 
-            //control.Insertar(listaLineasFactura);
-            //********************
+            control.Insertar(listaLineasFactura);
+            control.Insertar(listaFacturaTemp);
             return Json("Factura guardada correctamente");
         }
     }

@@ -11,7 +11,7 @@
             @foreach (var videojuego in Model)
             {
                 <div id="@videojuego.CodVideojuego">
-                    <div><img alt="Portada" src=@videojuego.Portada width="200" height="200"></div>
+                    <div><img alt="Portada" src=@videojuego.Portada width="150" height="200"></div>
                     <div>
                         @Html.ActionLink(videojuego.Titulo, "verVideojuego", "Videojuego", new { CodVideojuego = @videojuego.CodVideojuego }, new { @class = "text-dark" })
                     </div>

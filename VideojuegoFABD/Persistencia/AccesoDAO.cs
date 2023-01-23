@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace VideojuegoFABD.Persistencia
 {
@@ -10,6 +9,7 @@ namespace VideojuegoFABD.Persistencia
         public bool BorradoVirtual(object objeto)
         {
             AccesoBD acceso = new AccesoBD();
+            acceso.StartTransaction();
             string sql;
             foreach (var item in objeto.GetType().GetProperties())
             {
@@ -22,6 +22,7 @@ namespace VideojuegoFABD.Persistencia
             {
                 if (acceso.Insertar(Util.GuardarSQL("BORRADOVIRTUAL" + objeto.GetType().Name, UtilSQL.SqlModificar(objeto)), objeto, AccesoBD.ObtenerValorClavePrimaria(objeto)))
                 {
+                    acceso.Commit();
                     return true;
                 }
             }
@@ -29,20 +30,24 @@ namespace VideojuegoFABD.Persistencia
             {
                 if (acceso.Insertar(sql, objeto, AccesoBD.ObtenerValorClavePrimaria(objeto)))
                 {
+                    acceso.Commit();
                     return true;
                 }
             }
+            acceso.RollBack();
             return false;
         }
 
         public bool Borrar(object objeto)
         {
             AccesoBD acceso = new AccesoBD();
+            acceso.StartTransaction();
             string sql;
             if ((sql = Util.ExisteSentencia("DELETE" + objeto.GetType().Name)) == null)
             {
                 if (acceso.Borrar(Util.GuardarSQL("DELETE" + objeto.GetType().Name, UtilSQL.SqlBorrar(objeto)), objeto))
                 {
+                    acceso.Commit();
                     return true;
                 }
             }
@@ -50,9 +55,11 @@ namespace VideojuegoFABD.Persistencia
             {
                 if (acceso.Borrar(sql, objeto))
                 {
+                    acceso.Commit();
                     return true;
                 }
             }
+            acceso.RollBack();
             return false;
         }
 
@@ -85,12 +92,14 @@ namespace VideojuegoFABD.Persistencia
             return acceso.Consultar(sql, clase, "");
         }
 
+
         public bool Insertar(List<object> list)
         {
             AccesoBD acceso = new AccesoBD();
             string sql;
             try
             {
+                acceso.StartTransaction();
                 foreach (var obj in list)
                 {
                     if ((sql = Util.ExisteSentencia("INSERTAR" + obj.GetType().Name)) == null)
@@ -104,32 +113,40 @@ namespace VideojuegoFABD.Persistencia
 
                     }
                 }
+                acceso.Commit();
                 return true;
             }
             catch (Exception)
             {
+                acceso.RollBack();
                 throw;
             }
         }
 
+
         public bool Modificar(string nombre, T objeto)
         {
             AccesoBD acceso = new AccesoBD();
+            acceso.StartTransaction();
             string sql;
             if ((sql = Util.ExisteSentencia("UPDATE" + objeto.GetType().Name)) == null)
             {
-                if (acceso.Insertar(Util.GuardarSQL("UPDATE" + objeto.GetType().Name, UtilSQL.SqlModificar(objeto)), objeto, nombre))
+                if (acceso.Insertar(Util.GuardarSQL("UPDATE" + objeto.GetType().Name, UtilSQL.SqlModificar(objeto)),
+                    objeto, nombre))
                 {
+                    acceso.Commit();
                     return true;
                 }
-                else
+            }
+            else
+            {
+                if (acceso.Insertar(sql, objeto, nombre))
                 {
-                    if (acceso.Insertar(sql, objeto, nombre))
-                    {
-                        return true;
-                    }
+                    acceso.Commit();
+                    return true;
                 }
             }
+            acceso.RollBack();
             return false;
         }
 

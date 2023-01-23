@@ -23,7 +23,7 @@ namespace VideojuegoFABD
         protected void Application_End()
         {
             Util.EscribirDictionarySentenciasFichero();
-            AccesoBD.Conexion.CerrarConexion();
+            ConexionJDBC.CerrarConexion();
         }
     }
 }

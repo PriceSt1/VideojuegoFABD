@@ -11,14 +11,14 @@ namespace VideojuegoFABD.Models
         public string Total { get; set; }
         
 
-        public TLinea(string codLibro, string videojuego, string titulo, string tema, string paginas, string precio, string formatouno, string formatodos, string formatotres, string estado, string borrado)
+        public TLinea(string codLibro, string videojuego, string titulo, string tema)
         {   this.CodFactura = codLibro;
             this.Videojuego = videojuego;
             this.Cantidad = titulo;
             this.Total = tema;
            
         }
-        public TLinea(string videojuego, string titulo, string tema, string paginas, string precio, string formatouno, string formatodos, string formatotres, string estado)
+        public TLinea(string videojuego, string titulo, string tema)
         {   
             this.CodFactura =Util.GenerarCodigo(this.GetType());
             this.Videojuego = videojuego;

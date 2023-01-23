@@ -14,7 +14,7 @@ namespace VideojuegoFABD.Controllers
     {
         ControlAccesoDAO<TUsuario> control = new ControlAccesoDAO<TUsuario>();
 
-        public ActionResult Index()
+        public ActionResult Inicio()
         {
             return View();
         }

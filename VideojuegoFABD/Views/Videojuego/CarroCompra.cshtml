@@ -5,14 +5,14 @@
 
 <div class="container">
     <center>
-        <!--span id="totadiscos">Total de discos: @Model.Count</span-->
+        <!--span id="totadiscos">Total de videojuegos: @Model.Count</span-->
         <div class="modal-body row" id="modal-champions-body">
             @foreach (var videojuego in Model)
             {
                 <div id="@videojuego.CodVideojuego">
-                    <div><img alt="Portada" src=@videojuego.Portada width="150" height="150"></div>
+                    <div><img alt="Portada" src=@videojuego.Portada width="150" height="200"></div>
                     <div>
-                        @Ajax.ActionLink(@videojuego.Titulo, "obtenerVideojuego", "Videojuego", new { CodVideojeugo = @videojuego.CodVideojuego }, new AjaxOptions()
+                        @Ajax.ActionLink(@videojuego.Titulo, "obtenerVideojuego", "Videojuego", new {CodVideojuego = @videojuego.CodVideojuego}, new AjaxOptions()
                         {
                             HttpMethod = "POST",
                             OnSuccess = "success",
@@ -137,7 +137,7 @@
         var lf = {};
         for (let miItem of carrito) {
             lf = {};
-            lf.Disco = miItem[0].CodDisco;
+            lf.Disco = miItem[0].CodVideojuego;
             lf.Cantidad = 1;
             lf.Total = miItem[0].Precio;
             lineas.push(lf);
