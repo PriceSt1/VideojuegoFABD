@@ -5,18 +5,13 @@
 
 <div class="container">
     <center>
-        <!--span id="totadiscos">Total de videojuegos: @Model.Count</span-->
         <div class="modal-body row" id="modal-champions-body">
             @foreach (var videojuego in Model)
             {
                 <div id="@videojuego.CodVideojuego">
                     <div><img alt="Portada" src=@videojuego.Portada width="150" height="200"></div>
                     <div>
-                        @Ajax.ActionLink(@videojuego.Titulo, "obtenerVideojuego", "Videojuego", new {CodVideojuego = @videojuego.CodVideojuego}, new AjaxOptions()
-                        {
-                            HttpMethod = "POST",
-                            OnSuccess = "success",
-                        }, new { @class = "text-dark" })
+                        <a href ="#" onclick="Enviar(@videojuego.CodVideojuego)" class="btn btn-outline-info">+</a>
                     </div>
                     <div><br /></div>
                 </div>
@@ -62,6 +57,19 @@
     {
         renderizarCarrito(carrito);
         calcularTotal(carrito);
+    }
+
+
+        function Enviar(data)
+    {
+        event.preventDefault();
+        var uri = '@Url.Action("obtenerVideojuego", "Videojuego")';
+        $.ajax({
+          url: uri,
+          data: { CodVideojuego: data },
+          type: 'POST',
+          success: success
+        });
     }
 
     function success(data) {
