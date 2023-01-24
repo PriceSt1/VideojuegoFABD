@@ -139,6 +139,7 @@
     <Compile Include="Comun\Errores.cs" />
     <Compile Include="Comun\Mensaje.cs" />
     <Compile Include="Controllers\InicioController.cs" />
+    <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VideojuegoController.cs" />
     <Compile Include="Global.asax.cs">
@@ -221,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Prueba\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
@@ -268,7 +270,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51747</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44345/</IISUrl>
+          <IISUrl>http://localhost:44345/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
